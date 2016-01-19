@@ -1,0 +1,17 @@
+<template name="afSelectButtons">
+    <div class="row" {{this.atts}}>
+    {{#if this.atts.allowFilter}}
+        <div>
+            <input type="text" value="" class="filter" placeholder="Filter values"/>
+        </div>
+    {{/if}}
+    {{#each this.items}}
+        {{#if filter this}}
+            <div class="col-md-4">
+                <button data-toggle="button" class="btn_item {{atts.buttonClasses}}"
+                        type="button">{{value}}</button>
+            </div>
+        {{/if}}
+    {{/each}}
+    </div>
+</template>
