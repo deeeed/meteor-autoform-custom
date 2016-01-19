@@ -1,0 +1,50 @@
+<template name="afFormArrayWrapper">
+
+    <div>
+        <button class="btn btn-primary btn-new">
+            <span class="fa fa-plus">&nbsp;</span>New
+        </button>
+    </div>
+
+    <table class="table table-bordered table-striped">
+        <tbody>
+        {{#each context}}
+            {{#let rowIndex=@index}}
+                <tr data-index="{{rowIndex}}">
+                    {{#each selectFields}}
+                        <td class="td-item">{{fieldValue this rowIndex}}</td>
+                    {{/each}}
+                    <td>
+                        <a class="link-remove" data-index="{{rowIndex}}"><span class="fa fa-remove">&nbsp;</span>Remove</a>
+                    </td>
+                </tr>
+            {{/let}}
+        {{/each}}
+        </tbody>
+    </table>
+    {{#if hasSelection}}
+        {{!--
+        <div>
+            There is a selection, do something!
+            <div>
+                id: {{this.id}}<br/>
+                type: {{form_config.type}}<br/>
+                setArrayItems: {{form_config.setArrayItems}}<br/>
+                scope: {{form_config.scope}}<br/>
+            </div>
+        </div>
+        --}}
+        {{#autoForm
+        id=this.id
+        collection=form_config.collection
+        doc=form_config.doc
+        type=form_config.type
+        setArrayItems=form_config.setArrayItems
+        scope=form_config.scope
+        validation="blur"}}
+
+            {{>UI.contentBlock data=selectedIndex}}
+
+        {{/autoForm}}
+    {{/if}}
+</template>
