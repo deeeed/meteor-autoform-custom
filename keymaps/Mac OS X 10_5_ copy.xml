@@ -1,7 +1,8 @@
-<keymap version="1" name="Mac OS X copy" parent="Mac OS X">
+<keymap version="1" name="Mac OS X 10.5+ copy" parent="Mac OS X 10.5+">
   <action id="CompareTwoFiles" />
   <action id="Diff.ShowDiff" />
   <action id="EditorDeleteLine">
+    <keyboard-shortcut first-keystroke="meta back_space" />
     <keyboard-shortcut first-keystroke="meta d" />
   </action>
   <action id="EditorDuplicate" />
