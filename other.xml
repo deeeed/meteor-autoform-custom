@@ -65,6 +65,8 @@
     <option name="SHOW_PATH" value="true" />
   </component>
   <component name="NodeJsLocalInterpreters">
-    <local-interpreter path="/usr/local/bin/node" />
+    <local-interpreter path="/usr/local/bin/node">
+      <version-cache version="4.1.0" last-modified="1442464040000" />
+    </local-interpreter>
   </component>
 </application>
