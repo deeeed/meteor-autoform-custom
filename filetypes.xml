@@ -3,6 +3,7 @@
     <extensionMap>
       <mapping pattern="lesson17" type="PLAIN_TEXT" />
       <mapping ext="conf" type="PLAIN_TEXT" />
+      <mapping ext="u8" type="PLAIN_TEXT" />
     </extensionMap>
   </component>
 </application>
