@@ -1,17 +1,34 @@
 <template name="afSelectButtons">
-    <div class="row" {{this.atts}}>
-    {{#if this.atts.allowFilter}}
-        <div>
-            <input type="text" value="" class="filter" placeholder="Filter values"/>
-        </div>
-    {{/if}}
-    {{#each this.items}}
-        {{#if filter this}}
-            <div class="col-md-4">
-                <button data-toggle="button" class="btn_item {{atts.buttonClasses}}"
-                        type="button">{{value}}</button>
+    <div {{atts}}>
+        {{#if this.atts.allowFilter}}
+            <div style="margin-bottom:5px;">
+                <div class="form-group">
+                    <div class="row" style="margin-right: 0px;">
+                        <div class="col-xs-12">
+                            <input type="text" value="" class="filter form-control" placeholder="Filter values"/>
+                            <button class="btn {{#if $eq filterValue ""}}btn-default{{else}}btn-success{{/if}} form-control-feedback fa fa-filter">&nbsp;</button>
+                        </div>
+                    </div>
+                </div>
             </div>
         {{/if}}
-    {{/each}}
+        <div class="row" style="max-height: 200px; overflow:auto;">
+            {{#each this.items}}
+                <div class="{{colSizeClass}} {{filter this}}">
+                    <button class="btn_item {{atts.buttonClasses}} {{isSelected}}"
+                            value="{{value}}" style="overflow:hidden;">{{value}}</button>
+                </div>
+            {{/each}}
+        </div>
+        {{#if this.atts.displaySummary}}
+            <div style="margin-top:10px; padding-left:10px;">
+                <strong><i class="fa fa-info-circle">&nbsp;</i>Selection:</strong>
+                {{#each currentValues}}
+                    <span class="btn btn-success no-hover">{{this}}</span>
+                {{else}}
+                    N/A
+                {{/each}}
+            </div>
+        {{/if}}
     </div>
 </template>

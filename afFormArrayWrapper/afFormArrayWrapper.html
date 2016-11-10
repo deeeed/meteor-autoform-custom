@@ -6,7 +6,7 @@
         </button>
     </div>
 
-    <table class="table table-bordered table-striped">
+    <table class="table table-bordered">
         <tbody>
         {{#each context}}
             {{#let rowIndex=@index}}
@@ -19,6 +19,10 @@
                     </td>
                 </tr>
             {{/let}}
+        {{else}}
+            <tr>
+                <td>No information available.</td>
+            </tr>
         {{/each}}
         </tbody>
     </table>
