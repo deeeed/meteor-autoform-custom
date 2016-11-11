@@ -15,6 +15,11 @@ Package.onUse(function(api) {
 
     api.addFiles([
         'afFormArrayWrapper/afFormArrayWrapper.html',
-        'afFormArrayWrapper/afFormArrayWrapper.js'
+        'afFormArrayWrapper/afFormArrayWrapper.js',
+        'inputTypes/select-buttons/select-buttons.html',
+        'inputTypes/select-buttons/select-buttons.css',
+        'inputTypes/select-buttons/select-buttons.js',
+        'inputTypes/smartdate/smartdate.html',
+        'inputTypes/smartdate/smartdate.js'
     ], 'client');
 });

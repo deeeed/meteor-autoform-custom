@@ -1,0 +1,10 @@
+<template name="afSmartInputDate">
+    {{#if atts.buttonClasses}}
+        <div class="input-group date">
+            <input type="date" class="form-control" value="{{getDate}}" {{dsk}}/>
+            <span class="input-group-addon"><i class="{{atts.buttonClasses}}"></i></span>
+        </div>
+    {{else}}
+        <input type="date" value="{{getDate}}" class="form-control" {{dsk}}/>
+    {{/if}}
+</template>
