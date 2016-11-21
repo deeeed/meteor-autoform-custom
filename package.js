@@ -10,7 +10,7 @@ Package.onUse(function(api) {
 
     api.use([
         'templating',
-        'aldeed:autoform@4.0.0 || 5.0.0'
+        'aldeed:autoform'
     ], 'client');
 
     api.addFiles([
