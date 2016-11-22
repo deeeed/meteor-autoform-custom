@@ -1,6 +1,7 @@
 # meteor-autoform-custom
 Simple autoform customizations for personal use
 
+DO NOT INCLUDE IT IN YOUR PROJECT, it's probably going to change very soon without notices.
 
 # Reminders
 
