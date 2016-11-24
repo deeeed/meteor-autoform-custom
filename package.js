@@ -10,8 +10,13 @@ Package.onUse(function(api) {
 
     api.use([
         'templating',
+        'ui',
+        'tracker',
+        'session',
+        'deps',
+		    'ecmascript',
         'aldeed:autoform'
-    ], 'client');
+    ]);
 
     api.addFiles([
         'afFormArrayWrapper/afFormArrayWrapper.html',
