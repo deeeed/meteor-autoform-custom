@@ -1,0 +1,20 @@
+.af-select-progressive label {display:block;}
+
+.af-select-progressive label input {
+    position:absolute;
+    visibility: hidden; /* Makes input not-clickable */
+    top:-20px;
+}
+
+.af-select-progressive label input + div {
+    cursor: pointer;
+    border: 2px solid transparent;
+    display:block;
+}
+
+.af-select-progressive span {overflow:hidden;}
+
+.af-select-progressive label input:checked + div {
+    border:2px solid red;
+}
+

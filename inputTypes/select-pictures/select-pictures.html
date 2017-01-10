@@ -1,0 +1,15 @@
+<template name="afSelectPictures">
+    <div class="af-pictures-group row" {{dsk}}>
+        {{#each this.items}}
+            <div class="col-xs-6 col-md-4">
+                <label>
+                    <input type="{{inputType}}" value="{{this.value}}" disabled={{this.disabled}} {{atts}} />
+                    <div>
+                        <img src="{{atts.imagePath}}/{{this.image}}" alt="{{this.label}}"/>
+                        <div class="text-center">{{this.label}}</div>
+                    </div>
+                </label>
+            </div>
+        {{/each}}
+    </div>
+</template>

@@ -15,7 +15,8 @@ Package.onUse(function(api) {
         'session',
         'deps',
 		    'ecmascript',
-        'aldeed:autoform'
+        'aldeed:autoform',
+        'tap:i18n'
     ]);
 
     api.addFiles([
@@ -24,6 +25,12 @@ Package.onUse(function(api) {
         'inputTypes/select-buttons/select-buttons.html',
         'inputTypes/select-buttons/select-buttons.css',
         'inputTypes/select-buttons/select-buttons.js',
+        'inputTypes/select-pictures/select-pictures.html',
+        'inputTypes/select-pictures/select-pictures.css',
+        'inputTypes/select-pictures/select-pictures.js',
+        'inputTypes/select-progressive/select-progressive.css',
+        'inputTypes/select-progressive/select-progressive.html',
+        'inputTypes/select-progressive/select-progressive.js',
         'inputTypes/smartdate/smartdate.html',
         'inputTypes/smartdate/smartdate.js'
     ], 'client');

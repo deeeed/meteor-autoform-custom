@@ -1,0 +1,12 @@
+<template name="afSelectProgressive">
+    <div class="af-select-progressive row" {{dsk}}>
+        {{#each this.items}}
+            <div class="col-xs-6 col-md-3">
+                <label>
+                    <input type="radio" value="{{this.value}}" {{atts}} />
+                    <div class="btn btn-primary">{{this.label}}</div>
+                </label>
+            </div>
+        {{/each}}
+    </div>
+</template>

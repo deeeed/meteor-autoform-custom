@@ -12,11 +12,16 @@
                 </div>
             </div>
         {{/if}}
-        <div class="row" style="max-height: 200px; overflow:auto;">
+        <div class="row af-select-buttons" style="max-height: 200px; overflow:auto;">
             {{#each this.items}}
                 <div class="{{colSizeClass}} {{filter this}}">
-                    <button class="btn_item {{atts.buttonClasses}} {{isSelected}}"
-                            value="{{value}}" style="overflow:hidden;">{{value}}</button>
+                    <label>
+                        <input type="{{inputType}}" value="{{this.value}}" disabled={{this.disabled}} {{atts}} />
+                        <div>
+                          <span class="{{atts.buttonClasses}} {{isSelected}}"
+                                  value="{{value}}" style="overflow:hidden;">{{format value}}</span>
+                        </div>
+                    </label>
                 </div>
             {{/each}}
         </div>
@@ -24,7 +29,7 @@
             <div style="margin-top:10px; padding-left:10px;">
                 <strong><i class="fa fa-info-circle">&nbsp;</i>Selection:</strong>
                 {{#each currentValues}}
-                    <span class="btn btn-success no-hover">{{this}}</span>
+                    <span class="btn btn-success no-hover">{{format this}}</span>
                 {{else}}
                     N/A
                 {{/each}}

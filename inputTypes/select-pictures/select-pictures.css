@@ -1,27 +1,24 @@
-.btn_item {
-    display:block;
-    width: 100%;
-    margin-bottom: 5px;
-}
-
-.nooooaf-select-buttons label input {
+.af-pictures-group label input {
     position:absolute;
     visibility: hidden; /* Makes input not-clickable */
     top:-20px;
 }
 
-.af-select-buttons label input + div {
+.af-pictures-group label input + div {
     cursor: pointer;
     border: 2px solid transparent;
+    width: 200px;
+    height: 150px;
 }
 
-.af-select-buttons label input:checked + div {
+.af-pictures-group label input:checked + div {
     border:2px solid red;
 }
 
-.af-select-buttons label input:disabled + div {
+.af-pictures-group label input:disabled + div {
     border: 2px solid transparent;
     opacity: 0.5;
     cursor: not-allowed;
     user-select: none;
 }
+
