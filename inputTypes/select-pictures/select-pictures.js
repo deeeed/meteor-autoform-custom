@@ -1,4 +1,4 @@
-
+let i18nPrefix = "";
 
 AutoForm.addInputType("select-pictures", {
     template: "afSelectPictures",
@@ -31,6 +31,7 @@ AutoForm.addInputType("select-pictures", {
         // use AutoForm.getCurrentDataForForm() to get them.
         var itemAtts = _.omit(context.atts);
         this.singleSelection = context.atts.singleSelection || false;
+        i18nPrefix = context.atts.i18nPrefix || "";
 
         // Allow disabled image
         let disabledValues = context.atts.disabledValues || [];
@@ -85,6 +86,9 @@ Template.afSelectPictures.helpers({
         // on the entire group
         delete atts["data-schema-key"];
         return atts;
+    },
+    format: function(value) {
+        return TAPi18n.__(i18nPrefix+value);
     },
     inputType: function() {
         return this.atts.singleSelection ? "radio" : "checkbox";
