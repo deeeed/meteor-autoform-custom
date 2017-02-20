@@ -9,16 +9,18 @@
     <table class="table table-bordered">
         <tbody>
         {{#each context}}
-            {{#let rowIndex=@index}}
-                <tr data-index="{{rowIndex}}">
-                    {{#each selectFields}}
-                        <td class="td-item">{{fieldValue this rowIndex}}</td>
-                    {{/each}}
-                    <td>
-                        <a class="link-remove" data-index="{{rowIndex}}"><span class="fa fa-remove">&nbsp;</span>Remove</a>
-                    </td>
-                </tr>
-            {{/let}}
+            <!--
+            Replace {{#let rowIndex=@index}} {{/let}} by ../@index to allow publishing
+            http://stackoverflow.com/questions/32728619/how-to-get-the-index-of-nested-each-in-meteor
+            -->
+              <tr data-index="{{../@index}}">
+                  {{#each selectFields}}
+                      <td class="td-item">{{fieldValue this ../@index}}</td>
+                  {{/each}}
+                  <td>
+                      <a class="link-remove" data-index="{{../@index}}"><span class="fa fa-remove">&nbsp;</span>Remove</a>
+                  </td>
+              </tr>
         {{else}}
             <tr>
                 <td>No information available.</td>
