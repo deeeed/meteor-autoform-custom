@@ -1,7 +1,7 @@
 Package.describe({
     name: 'deeeed:autoform-custom',
     summary: 'Simple custom fields/forms for autoform',
-    version: '0.2.0',
+    version: '0.3.0',
     git: 'https://github.com/deeeed/meteor-autoform-custom.git'
 });
 
@@ -15,11 +15,13 @@ Package.onUse(function (api) {
         'tracker',
         'session',
         'deps',
-        'ecmascript',
-        'aldeed:autoform',
-        'tap:i18n'
+        'ecmascript'
     ]);
-    api.use("stevezhu:lodash");
+    api.use([
+      "aldeed:autoform@5.8.1",
+      "stevezhu:lodash@4.17.2",
+      "tap:i18n@1.8.2"
+    ]);
 
     api.addFiles([
         'afFormArrayWrapper/afFormArrayWrapper.html',
