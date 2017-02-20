@@ -7,9 +7,11 @@
 .af-pictures-group label input + div {
     cursor: pointer;
     border: 2px solid transparent;
-    width: 200px;
+    max-width: 100%;
     height: 150px;
 }
+
+.af-pictures-group img { width:100%; }
 
 .af-pictures-group label input:checked + div {
     border:2px solid red;

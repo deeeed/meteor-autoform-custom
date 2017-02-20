@@ -5,7 +5,7 @@ Package.describe({
     git: 'https://github.com/deeeed/meteor-autoform-custom.git'
 });
 
-Package.onUse(function(api) {
+Package.onUse(function (api) {
     api.versionsFrom('1.0.1');
 
     api.use([
@@ -14,10 +14,11 @@ Package.onUse(function(api) {
         'tracker',
         'session',
         'deps',
-		    'ecmascript',
+        'ecmascript',
         'aldeed:autoform',
         'tap:i18n'
     ]);
+    api.use("stevezhu:lodash");
 
     api.addFiles([
         'afFormArrayWrapper/afFormArrayWrapper.html',

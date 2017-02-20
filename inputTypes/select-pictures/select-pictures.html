@@ -1,9 +1,9 @@
 <template name="afSelectPictures">
-    <div class="af-pictures-group row" {{dsk}}>
+    <div class="af-pictures-group" {{dsk}} {{singleSelection}}>
         {{#each this.items}}
             <div class="col-xs-6 col-md-4">
-                <label>
-                    <input type="{{inputType}}" value="{{this.value}}" disabled={{this.disabled}} {{atts}} />
+                <label style="display:block;">
+                    <input type="{{inputType}}" value="{{this.value}}" disabled={{this.disabled}} {{atts}}/>
                     <div>
                         <img src="{{atts.imagePath}}/{{this.image}}" alt="{{format this.label}}"/>
                         <div class="text-center">{{format this.label}}</div>

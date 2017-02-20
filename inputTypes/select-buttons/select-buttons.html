@@ -1,9 +1,9 @@
 <template name="afSelectButtons">
-    <div {{atts}}>
+    <div  {{dsk}} {{singleSelection}}>
         {{#if this.atts.allowFilter}}
             <div style="margin-bottom:5px;">
                 <div class="form-group">
-                    <div class="row" style="margin-right: 0px;">
+                    <div class="row">
                         <div class="col-xs-12">
                             <input type="text" value="" class="filter form-control" placeholder="Filter values"/>
                             <button class="btn {{#if $eq filterValue ""}}btn-default{{else}}btn-success{{/if}} form-control-feedback fa fa-filter">&nbsp;</button>
@@ -12,22 +12,25 @@
                 </div>
             </div>
         {{/if}}
-        <div class="row" style="max-height: 200px; overflow:auto;">
+        <div>
             {{#each this.items}}
                 <div class="{{colSizeClass}} {{filter this}}">
                     <button class="btn_item {{atts.buttonClasses}} {{isSelected}}"
-                            value="{{value}}" style="overflow:hidden;">{{format value}}</button>
+                            value="{{value}}" style="overflow:hidden;">{{format this.atts.i18nPrefix value}}</button>
+
                 </div>
             {{/each}}
         </div>
         {{#if this.atts.displaySummary}}
             <div style="margin-top:10px; padding-left:10px;">
                 <strong><i class="fa fa-info-circle">&nbsp;</i>Selection:</strong>
-                {{#each currentValues}}
-                    <span class="btn btn-success no-hover">{{format this}}</span>
-                {{else}}
-                    N/A
-                {{/each}}
+                {{#let prefix=this.atts.i18nPrefix}}
+                    {{#each currentValues}}
+                        <span class="btn btn-success no-hover">{{format prefix this}}</span>
+                    {{else}}
+                        N/A
+                    {{/each}}
+                {{/let}}
             </div>
         {{/if}}
     </div>
