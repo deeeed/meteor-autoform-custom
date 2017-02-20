@@ -1,15 +1,18 @@
-let i18nPrefix = "";
-
 AutoForm.addInputType("select-pictures", {
     template: "afSelectPictures",
     // Only a single element can be selected if true and it returns a string.
     // Otherwise it will return an array of value.
-    singleSelection: false,
 
     valueOut: function() {
         var val = null;
+        // valueOut: Required. A function that AutoForm calls when it wants to know what the current value stored
+        // in your widget is. In this function, this is the jQuery object representing the element
+        // that has the data-schema-key attribute in your custom template.
+        // So, for example, in a simple case your valueOut function might just do return this.val().
 
-        if(!this.singleSelection) {
+        let singleSelection = this.data("single-selection");
+        // console.debug("outputing now", this.data("schema-key"));
+        if(!singleSelection) {
             val = [];
             this.find('input[type=checkbox]').each(function () {
                 if ($(this).is(":checked")) {
@@ -29,22 +32,22 @@ AutoForm.addInputType("select-pictures", {
         // That returned object then becomes this in your custom template.
         // If you need access to attributes of the parent autoForm in this function,
         // use AutoForm.getCurrentDataForForm() to get them.
-        var itemAtts = _.omit(context.atts);
-        this.singleSelection = context.atts.singleSelection || false;
-        i18nPrefix = context.atts.i18nPrefix || "";
+        var itemAtts = lodash.omit(context.atts);
+
 
         // Allow disabled image
         let disabledValues = context.atts.disabledValues || [];
+
         // build items list
         context.items = [];
 
         // console.debug("context is ", context);
 
         // Add all defined options
-        _.each(context.selectOptions, function(opt) {
+        lodash.each(context.selectOptions, function(opt) {
             let selected = context.value == opt.value;
             if(!context.atts.singleSelection) {
-                selected = _.contains(context.value, opt.value);
+                selected = lodash.includes(context.value, opt.value);
             }
             let item = {
                 name: context.name,
@@ -55,7 +58,7 @@ AutoForm.addInputType("select-pictures", {
                 // #each uses to track unique list items when adding and removing them
                 // See https://github.com/meteor/meteor/issues/2174
                 _id: opt.value,
-                disabled: (_.contains(disabledValues, opt.value)),
+                disabled: (lodash.includes(disabledValues, opt.value)),
                 selected: selected,
                 atts: itemAtts
             };
@@ -78,7 +81,7 @@ Template.afSelectPictures.onRendered(function() {
 
 Template.afSelectPictures.helpers({
     atts: function selectedAttsAdjust() {
-        var atts = _.clone(this.atts);
+        var atts = lodash.clone(this.atts);
         if (this.selected) {
             atts.checked = "";
         }
@@ -88,10 +91,14 @@ Template.afSelectPictures.helpers({
         return atts;
     },
     format: function(value) {
-        return TAPi18n.__(i18nPrefix+value);
+        let prefix = this.atts.i18nPrefix || "";
+        return TAPi18n.__(prefix+value);
     },
     inputType: function() {
         return this.atts.singleSelection ? "radio" : "checkbox";
+    },
+    singleSelection: function () {
+        return {'data-single-selection': this.atts['singleSelection']};
     },
     dsk: function () {
         return {'data-schema-key': this.atts['data-schema-key']};

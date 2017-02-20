@@ -1,4 +1,4 @@
-let i18nPrefix = "";
+let cache = {};
 
 AutoForm.addInputType("select-buttons", {
     template: "afSelectButtons",
@@ -18,13 +18,18 @@ AutoForm.addInputType("select-buttons", {
             return this.value;
         }).get();
 
-        var valueIsArray = this.context.getAttribute("valueIsArray");
-        if("false"==valueIsArray) {
-            values = values.join("");
+
+        let key = this[0].getAttribute("data-schema-key");
+        let singleSelection = cache[key] == "Y";
+        if(Session.equals("debug",true)) {
+            console.debug("valueOut ",values, singleSelection, cache, key, this[0].getAttribute("data-schema-key"));
+            // console.debug("this[context]", this.context);
         }
 
-        var dsk =  this[0].getAttribute("data-schema-key");
-        // console.debug(dsk+": ",values);
+
+        if(singleSelection) {
+            return values[0];
+        }
 
         return values;
     },
@@ -35,21 +40,34 @@ AutoForm.addInputType("select-buttons", {
         // If you need access to attributes of the parent autoForm in this function,
         // use AutoForm.getCurrentDataForForm() to get them.
 
-        // console.debug("contextAdjust",context);
-        this.allowFilter = context.atts.allowFilter;
-        this.singleSelection = context.atts.singleSelection || false;
-        let colSizeClass = context.atts.colSizeClass || "col-sm-6 col-md-4";
-        i18nPrefix = context.atts.i18nPrefix || "";
+        // console.debug("contextAdjust",context, this);
+        cache[context.name] = context.atts.singleSelection;
 
-        context.items = _.map(context.selectOptions, function(opt) {
-            var selected = context.value.indexOf(opt.value)!=-1;
-            // console.debug(context.value, opt,selected);
+        this.allowFilter = context.atts.allowFilter;
+        this.i18nPrefix = context.atts.i18nPrefix || "";
+        let colSizeClass = context.atts.colSizeClass || "col-sm-6";
+
+        if(Session.equals("debug",true)) {
+            console.debug("contextAdjust",context.value, context.selectOptions);
+        }
+        context.items = lodash.map(context.selectOptions, function(opt) {
+            let selected = false;
+            if(_.isArray(context.value)) {
+                selected = context.value.indexOf(opt.value)!=-1;
+            } else {
+                selected = context.value == opt.value;
+            }
+
+            // if(Session.equals("debug",true)) {
+            //     console.debug("items#",context.value, opt,selected);
+            // }
+
             return {
                 name: context.name,
                 label: opt.label,
                 colSizeClass: colSizeClass,
                 value: opt.value,
-                htmlAtts: _.omit(opt, 'label', 'value'),
+                htmlAtts: lodash.omit(opt, 'label', 'value'),
                 // _id must be included because it is a special property that
                 // #each uses to track unique list items when adding and removing them
                 // See https://github.com/meteor/meteor/issues/2174
@@ -63,16 +81,18 @@ AutoForm.addInputType("select-buttons", {
 });
 
 Template.afSelectButtons.onCreated(function() {
-    //console.debug("template CUSOTM created",this);
     this.filter = new ReactiveVar(false);
     this.deps = new Tracker.Dependency;
 });
 Template.afSelectButtons.onRendered(function() {
-    //console.debug("template CUSOTM rendered",this);
-    // Hack to display the value on first load
-    Meteor.setTimeout(() => {
-        this.deps.changed();
-    }, 2000);
+    // // Hack to display the value on first load
+    // Meteor.setTimeout(() => {
+    //     this.deps.changed();
+    // }, 2000);
+
+    // let actives = $(this.firstNode).find("button.btn_item.active");
+    // console.debug("Custom select-buttons", this, actives);
+
 });
 
 Template.afSelectButtons.helpers({
@@ -88,12 +108,15 @@ Template.afSelectButtons.helpers({
     },
     isSelected: function() {
         if(this.selected) {
+            // console.debug("is Selected", this, this.selected);
             return "active "+this.atts['activeClasses'];
         }
         return "";
     },
-    format: function(value) {
-        return TAPi18n.__(i18nPrefix+value);
+    format: function(prefix, value) {
+        let format = TAPi18n.__(prefix+value);
+        // console.debug("format "+value, this);
+        return format;
     },
     currentValues: function() {
         var tpl = Template.instance();
@@ -110,12 +133,15 @@ Template.afSelectButtons.helpers({
         }
 
         // Remove empty values
-        values = _.filter(values, function(elt) {return elt.length>0;});
+        values = lodash.filter(values, function(elt) {return elt.length>0;});
         // console.debug("current values are", values);
         return values;
     },
     dsk: function () {
         return {'data-schema-key': this.atts['data-schema-key']};
+    },
+    singleSelection: function () {
+        return {'data-single-selection': this.atts['singleSelection']};
     },
     filterValue: function() {
         var filter = Template.instance().filter.get();
@@ -128,13 +154,46 @@ Template.afSelectButtons.events({
         evt.preventDefault();
 
         var target = $(evt.target);
+
+        let prev = tpl.$("button.btn_item.active");
+
+
+
+        if(Session.equals("debug",true)) {
+            console.debug("button has been clicked", evt.target.value);
+            console.debug("atts are ", tpl.data.atts);
+        }
+
         if(!target.hasClass("active")) {
-            // Remove previous selection on single mode
-            if(tpl.data.atts.singleSelection) {
+
+            if(tpl.data.atts.singleSelection=="Y") {
+                // Remove previous selection on single mode
+                // console.debug("Remove previous selection on single mode")
                 var actives = tpl.$("button.btn_item.active");
-                //console.debug("reset previous values",actives, $("button.btn_item.active"));
                 actives.removeClass("active");
                 actives.removeClass(tpl.data.atts.activeClasses);
+            } else {
+                // Check for special value
+                /**
+                 * RESET Value button is used to cancel out other value in a list of choices.
+                 * For example if someone has to choose for a list of sports.
+                 * One of the choice could be 'I don't like sports', this button can be used as a reset button.
+                 * When selected it will automatically unselect all the other buttons.
+                 */
+                let resetValue = tpl.data.atts.resetValue;
+                let val = target.val();
+                // Check if the reset value is checked
+                if(resetValue == val) {
+                    // Reset previous values
+                    var actives = tpl.$("button.btn_item.active");
+                    actives.removeClass("active");
+                    actives.removeClass(tpl.data.atts.activeClasses);
+                } else if(resetValue) {
+                    // Automatically uncheck resetValueButton
+                    let resetValueButton = tpl.$("button.btn_item[value='"+resetValue+"']");
+                    resetValueButton.removeClass("active");
+                    resetValueButton.removeClass(tpl.data.atts.activeClasses);
+                }
             }
             // Set the active class on current button
             target.addClass("active");
@@ -143,6 +202,7 @@ Template.afSelectButtons.events({
                 target.addClass(tpl.data.atts.activeClasses);
             }
         } else {
+            // console.debug("removing active classes");
             // Remove active button
             target.removeClass(tpl.data.atts.activeClasses);
             target.removeClass("active");
@@ -198,4 +258,5 @@ Template.afSelectButtons.events({
 });
 
 Template.afSelectButtons.onDestroyed(function() {
+    // console.debug("select-buttons onDestroyed() ");
 });
