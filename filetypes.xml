@@ -2,11 +2,11 @@
   <component name="FileTypeManager" version="17">
     <extensionMap>
       <mapping pattern="TODO" type="PLAIN_TEXT" />
-      <mapping ext="model" type="PLAIN_TEXT" />
       <mapping ext="plist" type="PLAIN_TEXT" />
+      <mapping ext="ttf" type="PLAIN_TEXT" />
+      <mapping ext="model" type="PLAIN_TEXT" />
       <mapping ext="i18n" type="PLAIN_TEXT" />
       <mapping ext="pem" type="PLAIN_TEXT" />
-      <mapping ext="ttf" type="PLAIN_TEXT" />
       <mapping pattern=".gitignore_global" type="Git file" />
     </extensionMap>
   </component>
